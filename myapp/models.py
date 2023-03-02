@@ -9,7 +9,7 @@ from pilkit.processors import ResizeToFill
 class UserProfile(models.Model):
     nickname = models.CharField(max_length=100, null=True, blank=True)
     icon = ProcessedImageField(upload_to='icons/%Y/%m/',
-                               processors=[ResizeToFill(100, 100)],
+                               processors=[ResizeToFill(50, 50)],
                                format='JPEG',
                                options={'quality': 60}, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -33,9 +33,11 @@ class Tag(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=150, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='posts')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     content = models.TextField()
-    tags = models.ManyToManyField(Tag)
-    likes = models.ManyToManyField(UserProfile)
+    tags = models.ManyToManyField(Tag, blank=True)
+    likes = models.ManyToManyField(UserProfile, blank=True)
 
     def __str__(self):
         return self.title
@@ -52,6 +54,6 @@ class Photo(models.Model):
                              null=True,
                              related_name='photos'
                              )
-
+    updated_at = models.DateTimeField(auto_now=True)
 
 

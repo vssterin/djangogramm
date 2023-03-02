@@ -1,17 +1,21 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from myapp.models import Photo
+from myapp.models import Photo, Post, UserProfile
 
 
 def index(request):
-    phtot = Photo.objects.all()[0]
-    print(phtot.image_thumbnail.url)
     return HttpResponse('Страница')
 
 
 def posts(request):
-    return HttpResponse('Лента')
+    posts = Post.objects.all()
+    for post in posts:
+        print(post.tags.count())
+    return render(request, 'posts.html', {'posts': Post.objects.all(),
+                                          'images': Photo.objects.all(),
+                                          'user_data': UserProfile.objects.all()})
 
 
 def profile(request):
