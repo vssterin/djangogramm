@@ -1,4 +1,6 @@
 from django.contrib import admin
+from imagekit.admin import AdminThumbnail
+
 from myapp.models import UserProfile, Post, Tag, Photo
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
@@ -8,6 +10,7 @@ class UserProfileInLine(admin.StackedInline):
     model = UserProfile
     can_delete = False
 
+
 class AccountsUserAdmin(AuthUserAdmin):
     def add_view(self, *args, **kwargs):
         self.inlines = []
@@ -16,6 +19,8 @@ class AccountsUserAdmin(AuthUserAdmin):
     def change_view(self, *args, **kwargs):
         self.inlines = [UserProfileInLine]
         return super(AccountsUserAdmin, self).change_view(*args, **kwargs)
+
+
 
 admin.site.unregister(User)
 admin.site.register(User, AccountsUserAdmin)
