@@ -28,7 +28,10 @@
     {% endfor %}
     <br>
     <p>Likes: {{ post.likes.count }}</p>
-    <p>Tags: {{ post.tags.count }}</p>
+    Tags:
+     {% for tag in post.tags.all %}
+        {{ tag }}
+    {% endfor %}
     </div>
     <br>
 {% endfor %}
