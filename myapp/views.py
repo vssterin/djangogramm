@@ -12,8 +12,7 @@ def index(request):
 def posts(request):
     return render(request, 'posts.html', {'posts': Post.objects.all(),
                                           'images': Photo.objects.all(),
-                                          'user_data': UserProfile.objects.all(),
-                                          'tags': Tag.objects.all()})
+                                          'user_data': UserProfile.objects.all()})
 
 
 def profile(request):
