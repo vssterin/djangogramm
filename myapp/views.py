@@ -16,12 +16,10 @@ def posts(request):
 
 
 def profile(request, profile_id):
-    user = User.objects.get(id=profile_id)
-    posts = user.posts.all()
+    posts = Post.objects.filter(user_id=profile_id)
     context = {
         'posts': posts,
-        'title': user.username,
-        'name': f'{user.first_name} {user.last_name}',
-        'images': Photo.objects.all()
+        'title': posts[0].user.username,
+        'name': f'{posts[0].user.first_name} {posts[0].user.last_name}'
     }
     return render(request, 'profile.html', context=context)

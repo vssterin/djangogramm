@@ -11,12 +11,10 @@
          <div>
             <h2>{{post.title}}</h2>
             <h3>{{post.content}}</h3>
-            {% for img in images %}
-                {% if img.post.id == post.id%}
+            {% for img in post.photo_set.all %}
                 <a href="{{img.image.url}}">
                     <img src="{{img.image_thumbnail.url}}"/>
                 </a>
-                {% endif %}
             {% endfor %}
             <p>Createf at {{post.created_at}}</p>
             <p>Likes: {{ post.likes.count }}</p>
