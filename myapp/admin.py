@@ -21,7 +21,6 @@ class AccountsUserAdmin(AuthUserAdmin):
         return super(AccountsUserAdmin, self).change_view(*args, **kwargs)
 
 
-
 admin.site.unregister(User)
 admin.site.register(User, AccountsUserAdmin)
 admin.site.register(Post)

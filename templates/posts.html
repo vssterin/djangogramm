@@ -8,10 +8,9 @@
 <body>
 <p>Number of posts: {{ posts|length }}</p>
 {% for post in posts %}
-    <div class="btn btn-success btn-lg">
-    Post title: {{ post.title }}
-    <br>
-    User Name: {{ post.user.username }}
+    <div>
+        <h2>Post title: {{ post.title }}</h2>
+        <h2>User Name: <a href="{% url 'profile' profile_id=post.user.id %}">{{ post.user.username }}</a></h2>
     {% for user in user_data %}
         {% if post.user.id == user.user.id%}
             <img src="{{user.icon.url}}"/>
@@ -22,16 +21,17 @@
     <br>
     {% for img in images %}
         {% if img.post.id == post.id%}
-            <img src="{{img.image_thumbnail.url}}"/>
-    {% endif %}
-    <br>
+            <a href="{{img.image.url}}">
+                <img src="{{img.image_thumbnail.url}}"/>
+            </a>
+        {% endif %}
     {% endfor %}
-    <br>
     <p>Likes: {{ post.likes.count }}</p>
     Tags:
      {% for tag in post.tags.all %}
         {{ tag }}
     {% endfor %}
+    <hr>
     </div>
     <br>
 {% endfor %}
