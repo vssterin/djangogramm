@@ -1,9 +1,4 @@
 {
-  "buildpacks": [
-    {
-      "url": "heroku/python"
-    }
-  ],
   "name": "Djangogramm",
   "description": "my first Python app",
   "image": "heroku/python",
