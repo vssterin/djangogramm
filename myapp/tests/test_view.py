@@ -13,3 +13,5 @@ class PostsTestCase(TestCase):
         self.assertEqual(post_1.title, 'First Post')
         self.assertEqual(post_1.content, 'Heroku automatically identifies your app as a Python app if any of the following files are present in its root directory')
         self.assertEqual(post_1.user.first_name, 'Mike')
+
+

@@ -12,7 +12,7 @@
         <h2>Post title: {{ post.title }}</h2>
         <h2>User Name: <a href="{% url 'profile' profile_id=post.user.id %}">{{ post.user.username }}</a></h2>
     {% for user in user_data %}
-        {% if post.user.id == user.user.id%}
+        {% if user.icon and post.user.id == user.user.id%}
             <img src="{{user.icon.url}}"/>
         {% endif %}
     {% endfor %}

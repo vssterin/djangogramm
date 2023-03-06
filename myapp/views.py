@@ -6,7 +6,12 @@ from myapp.models import Photo, Post, UserProfile, Tag
 
 
 def index(request):
-    return HttpResponse('Страница')
+    context = {
+        'title': 'Main Page',
+
+    }
+    return render(request, 'index.html', context=context)
+    # return HttpResponse('Страница')
 
 
 def posts(request):
