@@ -79,10 +79,10 @@ DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3',
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangogramm',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
+        'NAME': 'd9j9at3jkijhh2',
+        'USER': 'xfhjbwhasdzkqd',
+        'PASSWORD': 'ce7f49c3b69280420fef1bd5d980084ddcc3c83d541c84c0518e7916846b8f18',
+        'HOST': 'ec2-34-197-84-74.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
