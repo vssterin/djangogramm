@@ -1,11 +1,10 @@
 from django.contrib.auth.models import User
 from django.test import Client, TestCase
 from django.urls import reverse
-
 from myapp.models import Post
 
 
-class TestPage(TestCase):
+class TestPageTestCase(TestCase):
     def setUp(self):
         user_1 = User.objects.create(username='Miki', first_name='Mike', last_name='Devars')
         post_1 = Post.objects.create(title='First Post',
