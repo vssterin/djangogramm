@@ -1,7 +1,7 @@
 from django.contrib import admin
 from imagekit.admin import AdminThumbnail
 
-from myapp.models import UserProfile, Post, Tag, Photo
+from myapp.models import UserProfile, Post, Tag, Photo, Like
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 
@@ -24,5 +24,6 @@ class AccountsUserAdmin(AuthUserAdmin):
 admin.site.unregister(User)
 admin.site.register(User, AccountsUserAdmin)
 admin.site.register(Post)
+admin.site.register(Like)
 admin.site.register(Tag)
 admin.site.register(Photo)

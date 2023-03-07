@@ -26,8 +26,19 @@
             </a>
         {% endif %}
     {% endfor %}
-    <p>Likes: {{ post.likes.count }}</p>
-    Tags:
+    <form action="{% url 'like-post' %}" method="POST" class="ui form">
+        {% csrf_token %}
+        <input type="hidden" name="post_id" value="{{post.id}}">
+        {% if main_user not in post.likes.all %}
+            <br>
+            <button class="btn btn-success" type="submit">Like</button>
+        {% else %}
+            <br>
+            <button class="btn btn-secondary" type="submit">Unlike</button>
+        {% endif %}
+    </form>
+    <strong>{{ post.likes.all.count }} Likes</strong>
+        <br><strong>Tags:</strong>
      {% for tag in post.tags.all %}
         {{ tag }}
     {% endfor %}

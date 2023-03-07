@@ -37,11 +37,28 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     content = models.TextField()
     tags = models.ManyToManyField(Tag, blank=True)
-    likes = models.ManyToManyField(UserProfile, blank=True)
+    likes = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return self.title
 
+    @property
+    def num_likes(self):
+        return self.likes.all().count()
+
+LIKE_CHOICES = (
+    ('Like', 'Like'),
+    ('Unlike', 'Unlike'),
+)
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    value = models.CharField(choices=LIKE_CHOICES, default='Like', max_length=10)
+
+    def __str__(self):
+        return str(self.post)
 
 class Photo(models.Model):
     image = models.ImageField(upload_to='photos/%Y/%m/', null=True)
