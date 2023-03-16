@@ -1,5 +1,6 @@
 from django.test import TestCase
 from myapp.models import Post, User
+from django.urls import reverse
 
 class PostsTestCase(TestCase):
     def test_posts(self):

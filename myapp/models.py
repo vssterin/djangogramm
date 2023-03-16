@@ -11,11 +11,20 @@ class UserProfile(models.Model):
     icon = ProcessedImageField(upload_to='icons/%Y/%m/',
                                processors=[ResizeToFill(50, 50)],
                                format='JPEG',
-                               options={'quality': 60}, null=True)
+                               options={'quality': 60}, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    fallowing = models.ManyToManyField(User, related_name='following', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.username
+
+    def profile_posts(self):
+        return self.posts.all()
+
+    class Meta:
+        ordering = ('-created_at',)
 
 @receiver(post_save, sender=User)
 def create_use_profile(sender, instance, created, **kwargs):
@@ -32,7 +41,7 @@ class Tag(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=150, blank=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='posts')
+    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, related_name='posts')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     content = models.TextField()
@@ -41,6 +50,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ('-created_at',)
 
     @property
     def num_likes(self):

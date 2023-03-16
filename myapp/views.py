@@ -1,8 +1,23 @@
+from itertools import chain
+from django.views.generic import ListView
 from django.contrib.auth.models import User, AbstractUser
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from myapp.models import Photo, Post, UserProfile, Tag, Like
+
+
+def follow_unfollow_profile(request):
+    if request.method == 'POST':
+        my_profile = UserProfile.objects.get(user=request.user)
+        pk = request.POST.get('profile_pk')
+        obj = UserProfile.objects.get(pk=pk)
+        if obj.user in my_profile.fallowing.all():
+            my_profile.fallowing.remove(obj.user)
+        else:
+            my_profile.fallowing.add(obj.user)
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect('profile')
 
 
 def index(request):
@@ -44,15 +59,55 @@ def like_post(request):
                     like.value = 'Like'
             like.save()
 
-        return redirect('posts')
+        return redirect(request.META.get('HTTP_REFERER'))
     else:
         return HttpResponse('You must log in to like posts')
 
 def profile(request, profile_id):
-    posts = Post.objects.filter(user_id=profile_id)
+    posts = Post.objects.filter(owner__user__id=profile_id)
+    view_profile = UserProfile.objects.get(user__id=profile_id)
+    my_profile = UserProfile.objects.get(user__id=request.user.id)
+    if view_profile.user in my_profile.fallowing.all():
+        follow = True
+    else:
+        follow = False
     context = {
         'posts': posts,
-        'title': posts[0].user.username,
-        'name': f'{posts[0].user.first_name} {posts[0].user.last_name}'
+        'title': view_profile.user.username,
+        'name': f'{view_profile.user.first_name} {view_profile.user.last_name}',
+        'follow': follow,
+        'view_profile': view_profile,
     }
     return render(request, 'profile.html', context=context)
+
+
+def news_feed(request):
+    profile = UserProfile.objects.get(user=request.user)
+    # who we are wollowing
+    users = [user for user in profile.fallowing.all()]
+    posts = []
+    qs = None
+    # get posts wollowing
+    if users:
+        for user in users:
+            p = UserProfile.objects.get(user=user)
+            p_posts = p.posts.all()
+            posts.append(p_posts)
+    # our posts
+    my_posts = profile.profile_posts()
+    if my_posts:
+        posts.append(my_posts)
+    else:
+        posts.append('Нет постов')
+
+    if len(posts) > 0:
+        qs = sorted(chain(*posts), reverse=True, key=lambda obj: obj.created_at)
+    return render(request, 'news_feed.html', context={'posts': qs})
+
+
+def users(request):
+    all_profiles = User.objects.all().exclude(id=request.user.id)
+    context = {
+        'profiles': all_profiles,
+    }
+    return render(request, 'users.html', context=context)

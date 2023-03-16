@@ -1,31 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{title}}</title>
-</head>
-<body>
-    <div>
-    <h1>{{ name }}</h1>
-        {% for post in posts%}
-         <div>
-            <h2>{{post.title}}</h2>
-            <h3>{{post.content}}</h3>
-            {% for img in post.photo_set.all %}
-                <a href="{{img.image.url}}">
-                    <img src="{{img.image_thumbnail.url}}"/>
-                </a>
-            {% endfor %}
-            <p>Createf at {{post.created_at}}</p>
-            <p>Likes: {{ post.likes.count }}</p>
-            <p>Tags:
-            {% for tag in post.tags.all %}
-                {{ tag }}
-            {% endfor %}
-            </p>
-            <hr>
-         </div>
-        {% endfor %}
+{% extends 'base.html' %}
+{% block title %}
+    {{title}}
+{% endblock title %}
+{% block content %}
+<div>
+    <div class="row">
+        <div class="col-sm-4">
+            <h1>{{ name }}</h1>
+            {% if follow %}
+            <form action="{% url 'switch_follow' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="profile_pk" value="{{view_profile.pk}}">
+                <button type="submit" class="btn btn-danger">unfollow</button>
+            </form>
+            {% else %}
+                <form action="{% url 'switch_follow' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="profile_pk" value="{{view_profile.pk}}">
+                    <button type="submit" class="btn btn-success">follow</button>
+                </form>
+            {% endif %}
+        </div>
+    <div class="col-sm-8">
+     {% for post in posts%}
+        <div class="border">
+            <div class="p-2">
+                <h2 class="mt-2">{{post.title}}</h2>
+                <p>{{post.content}}</p>
+                {% for img in post.photo_set.all %}
+                    <a href="{{img.image.url}}">
+                        <img src="{{img.image_thumbnail.url}}"/>
+                    </a>
+                {% endfor %}
+                <p>Createf at {{post.created_at}}</p>
+                <p>Likes: {{ post.likes.count }}</p>
+                <p>Tags:
+                {% for tag in post.tags.all %}
+                    {{ tag }}
+                {% endfor %}
+                </p>
+            </div>
+        </div>
+    {% endfor %}
     </div>
-</body>
-</html>
+</div>
+{% endblock content %}

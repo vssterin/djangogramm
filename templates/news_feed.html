@@ -1,26 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-</head>
-<body>
-<h1>Posts</h1>
-<p>Number of posts: {{ posts|length }}</p>
+{% extends 'base.html' %}
+
+{% block title %}
+     <title>News Feed</title>
+{% endblock title %}
+
+{% block content %}
 {% for post in posts %}
     <div>
-        <h2>Post title: {{ post.title }}</h2>
-        <h2>User Name: <a href="{% url 'profile' profile_id=post.owner.user.id%}">{{ post.owner.user.username }}</a></h2>
-    {% for user in user_data %}
-        {% if user.icon and post.owner.user.id == user.user.id%}
-            <img src="{{user.icon.url}}"/>
-        {% endif %}
-    {% endfor %}
+        <div>
+            <p>{{post.owner.user.username}}
+            <img class="rounded-circle" src="{{post.owner.icon.url}}"/>
+            </p>
+        </div>
+        <h2>{{ post.title }}</h2>
     <br>
         <p>Content: {{ post.content }}</p>
     <br>
-    {% for img in images %}
+    {% for img in post.photo_set.all %}
         {% if img.post.id == post.id%}
             <a href="{{img.image.url}}">
                 <img src="{{img.image_thumbnail.url}}"/>
@@ -47,5 +43,4 @@
     </div>
     <br>
 {% endfor %}
-</body>
-</html>
+{% endblock content %}

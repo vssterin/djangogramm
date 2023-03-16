@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+     <title>Profile to follow</title>
+{% endblock title %}
+
+{% block content %}
+    {{follow}}
+    {% for profile in profiles %}
+        <div class="container-md text-center">
+          <div class="row p-5 rounded border border-secondary-subtle">
+            <div class="col">
+            </div>
+            <div class="col">
+                <div class="">
+                {{profile.username}}
+                </div>
+                <div class="div">
+                    <a href="{% url 'profile' profile_id=profile.id %}">
+                        <button type="button" class="btn btn-primary" >View profile</button>
+                    </a>
+                </div>
+            </div>
+            <div class="col">
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+{% endblock content %}
