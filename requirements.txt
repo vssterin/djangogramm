@@ -9,3 +9,4 @@ six==1.16.0
 sqlparse==0.4.3
 gunicorn
 whitenoise>=6.0,<7.0
+setuptools==60.2.0
