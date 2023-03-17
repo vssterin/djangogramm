@@ -97,14 +97,12 @@ def news_feed(request):
     my_posts = profile.profile_posts()
     if my_posts:
         posts.append(my_posts)
-    else:
-        posts.append('Нет постов')
 
     if len(posts) > 0:
         qs = sorted(chain(*posts), key=lambda obj: obj.created_at, reverse=True)
-        # qs = chain(*posts)
-        # # qs = qs.order_by('created_at')
-    return render(request, 'news_feed.html', context={'posts': qs})
+        return render(request, 'news_feed.html', context={'posts': qs})
+    else:
+        return HttpResponse('Нет постов')
 
 
 def users(request):
