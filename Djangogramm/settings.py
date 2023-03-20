@@ -78,18 +78,18 @@ WSGI_APPLICATION = "Djangogramm.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'djangogramm',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'localhost',
-        'PORT': '5432',
         # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'd9at5bojls4pc7',
-        # 'USER': 'felkvvvdngdmmc',
-        # 'PASSWORD': 'fe61d1acb6de34d6f49ba3574fc90d865db8a8c364b4008695656aab8c86748c',
-        # 'HOST': 'ec2-44-209-24-62.compute-1.amazonaws.com',
+        # 'NAME': 'djangogramm',
+        # 'USER': 'postgres',
+        # 'PASSWORD': 'postgres',
+        # 'HOST': 'localhost',
         # 'PORT': '5432',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd9at5bojls4pc7',
+        'USER': 'felkvvvdngdmmc',
+        'PASSWORD': 'fe61d1acb6de34d6f49ba3574fc90d865db8a8c364b4008695656aab8c86748c',
+        'HOST': 'ec2-44-209-24-62.compute-1.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
