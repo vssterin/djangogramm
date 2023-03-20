@@ -16,36 +16,36 @@
     <br>
         <p>Content: {{ post.content }}</p>
     <br>
-    <div id="carouselExampleIndicators" class="carousel slide " style="max-width: 500px; justify-content: center; align-items: center;">
-          <div class="carousel-inner">
-        {% for img in post.photo_set.all|slice:"0:1" %}
-            {% if img.post.id == post.id%}
-               <div class="carousel-item active">
-                   <a href="{{img.image.url}}">
-                       <img src="{{img.image_thumbnail.url}}" class="d-block w-100">
-                   </a>
-               </div>
-            {% endif %}
-        {% endfor %}
-        {% for img in post.photo_set.all|slice:"1:" %}
-            {% if img.post.id == post.id%}
-               <div class="carousel-item">
-                   <a href="{{img.image.url}}">
-                        <img src="{{img.image_thumbnail.url}}" class="d-block w-100">
-                   </a>
-               </div>
-            {% endif %}
-        {% endfor %}
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-    </div>
+        <div id="carouselExampleIndicators" class="carousel slide " style="max-width: 500px; justify-content: center; align-items: center;">
+              <div class="carousel-inner">
+            {% for img in post.photo_set.all|slice:"0:1" %}
+                {% if img.post.id == post.id%}
+                   <div class="carousel-item active">
+                       <a href="{{img.image.url}}">
+                           <img src="{{img.image_thumbnail.url}}" class="d-block w-100">
+                       </a>
+                   </div>
+                {% endif %}
+            {% endfor %}
+            {% for img in post.photo_set.all|slice:"1:" %}
+                {% if img.post.id == post.id%}
+                   <div class="carousel-item">
+                       <a href="{{img.image.url}}">
+                            <img src="{{img.image_thumbnail.url}}" class="d-block w-100">
+                       </a>
+                   </div>
+                {% endif %}
+            {% endfor %}
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+        </div>
     <form action="{% url 'like-post' %}" method="POST" class="ui form">
         {% csrf_token %}
         <input type="hidden" name="post_id" value="{{post.id}}">
