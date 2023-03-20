@@ -3,6 +3,7 @@ from django.views.generic import ListView
 from django.contrib.auth.models import User, AbstractUser
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.db.models import Q
 
 from myapp.models import Photo, Post, UserProfile, Tag, Like
 
@@ -81,26 +82,11 @@ def profile(request, profile_id):
 
 
 def news_feed(request):
-    profile = UserProfile.objects.get(user=request.user)
-    # who we are wollowing
-    users = [user for user in profile.fallowing.all()]
-    posts = []
-    following = profile.fallowing.all()
-    qs = None
-    # get posts wollowing
-    if users:
-        for user in users:
-            p = UserProfile.objects.get(user=user)
-            p_posts = p.posts.all()
-            posts.append(p_posts)
-    # our posts
-    my_posts = profile.profile_posts()
-    if my_posts:
-        posts.append(my_posts)
-
-    if len(posts) > 0:
-        qs = sorted(chain(*posts), key=lambda obj: obj.created_at, reverse=True)
-        return render(request, 'news_feed.html', context={'posts': qs, 'main_user': request.user})
+    main_user = request.user
+    user_profile = main_user.profile
+    posts = Post.objects.filter(Q(owner=user_profile) | Q(owner__user__in=UserProfile.objects.get(user=main_user).fallowing.all())).order_by('-created_at')
+    if posts:
+        return render(request, 'news_feed.html', context={'posts': posts, 'main_user': main_user,})
     else:
         return HttpResponse('Нет постов')
 
