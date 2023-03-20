@@ -23,7 +23,6 @@ def follow_unfollow_profile(request):
 def index(request):
     context = {
         'title': 'Main Page',
-
     }
     return render(request, 'index.html', context=context)
     # return HttpResponse('Страница')
@@ -86,6 +85,7 @@ def news_feed(request):
     # who we are wollowing
     users = [user for user in profile.fallowing.all()]
     posts = []
+    following = profile.fallowing.all()
     qs = None
     # get posts wollowing
     if users:
@@ -100,14 +100,16 @@ def news_feed(request):
 
     if len(posts) > 0:
         qs = sorted(chain(*posts), key=lambda obj: obj.created_at, reverse=True)
-        return render(request, 'news_feed.html', context={'posts': qs})
+        return render(request, 'news_feed.html', context={'posts': qs, 'main_user': request.user})
     else:
         return HttpResponse('Нет постов')
 
 
 def users(request):
     all_profiles = User.objects.all().exclude(id=request.user.id)
+    profile = UserProfile.objects.get(user=request.user)
     context = {
         'profiles': all_profiles,
+        'my_user': profile,
     }
     return render(request, 'users.html', context=context)

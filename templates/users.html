@@ -11,15 +11,33 @@
           <div class="row p-5 rounded border border-secondary-subtle">
             <div class="col">
             </div>
-            <div class="col">
-                <div class="">
-                {{profile.username}}
+            <div class="col mx-auto">
+                <div class="nav">
+                    <li class="nav-item pr-3 pb-3">
+                        {% if profile.profile.icon %}
+                            <img class="rounded-circle" src="{{profile.profile.icon.url}}"/>
+                        {% endif %}
+                    </li>
+                    <li class="nav-item">
+                        <h2>{{profile.username}}</h2>
+                    </li>
                 </div>
                 <div class="div">
                     <a href="{% url 'profile' profile_id=profile.id %}">
                         <button type="button" class="btn btn-primary" >View profile</button>
                     </a>
                 </div>
+                <form form action="{% url 'switch_follow' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="profile_pk" value="{{profile.profile.pk}}">
+                    {% if profile not in my_user.fallowing.all %}
+                        <br>
+                        <button class="btn btn-success" type="submit">Follow</button>
+                    {% else %}
+                        <br>
+                        <button class="btn btn-secondary" type="submit">Unfollow</button>
+                    {% endif %}
+                </form>
             </div>
             <div class="col">
             </div>

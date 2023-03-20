@@ -135,3 +135,10 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Googlt Cloud Storage settings
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = 'AKIAZJY6PQYT35GUMGUU'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'djangogrammvs'
+AWS_S3_REGION_NAME = "eu-north-1"

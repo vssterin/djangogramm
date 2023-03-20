@@ -12,7 +12,7 @@ class UserProfile(models.Model):
                                processors=[ResizeToFill(50, 50)],
                                format='JPEG',
                                options={'quality': 60}, null=True, blank=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     fallowing = models.ManyToManyField(User, related_name='following', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
