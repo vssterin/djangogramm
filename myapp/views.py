@@ -9,15 +9,20 @@ from myapp.models import Photo, Post, UserProfile, Tag, Like
 
 
 def follow_unfollow_profile(request):
+    print(request.POST.get('value'))
+    if not request.POST.get('value'):
+        return HttpResponse(request.POST.get('value'), status=200)
     if request.method == 'POST':
         my_profile = UserProfile.objects.get(user=request.user)
-        pk = request.POST.get('profile_pk')
+        pk = request.POST.get('value')
         obj = UserProfile.objects.get(pk=pk)
         if obj.user in my_profile.fallowing.all():
             my_profile.fallowing.remove(obj.user)
+            rq = 'removed'
         else:
             my_profile.fallowing.add(obj.user)
-        return redirect(request.META.get('HTTP_REFERER'))
+            rq = 'added'
+        return HttpResponse(rq, status=200)
     return redirect('profile')
 
 
